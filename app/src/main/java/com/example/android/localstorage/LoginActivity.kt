@@ -15,7 +15,6 @@ class LoginActivity : AppCompatActivity() {
         buttonLogin.setOnClickListener { validateInputs() }
         buttonSignup.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
-
         }
     }
 
@@ -42,12 +41,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginUser(_email: String, _password: String) {
         val mPref = getSharedPreferences("detailsSupplied", Context.MODE_PRIVATE)
+        val name = mPref.getString("name".plus(_email), "")
         val email = mPref.getString("email".plus(_email), "")
+        val school = mPref.getString("school".plus(_email), "")
         val password = mPref.getString("password".plus(_email), "")
 
         if (email.equals(_email, true)) {
             if (password.equals(_password)) {
                 val intent = Intent(this, ProfileActivity::class.java)
+                intent.putExtra("name", name)
+                intent.putExtra("email", email)
+                intent.putExtra("school", school)
                 startActivity(intent)
 
             } else {
